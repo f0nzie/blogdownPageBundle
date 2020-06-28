@@ -1,0 +1,58 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+blog_dir = '/media/msfz751/2560x/repos/blogdown-sites/fonzie-oilgains'
+file <- file.path(blog_dir, "content/blog", "2018-11-18-otc-2016-second-day.md")
+file
+```
+
+```{r}
+text_md <- readLines(file, warn = FALSE)
+grep(pattern = "image:", text_md)
+```
+
+```{r}
+new_text <- text_md[-c(10)]
+new_text[1:15]
+```
+
+```{r}
+link_text <- "
+links:
+- icon: linkedin
+  icon_pack: fas
+  name: LinkedIn
+  url: 
+"
+link_text
+```
+
+```{r}
+# read markdown file
+x <- xfun::read_utf8(file)
+res <- blogdown:::split_yaml_body(x)   # split in two
+```
+
+```{r}
+names(res)
+```
+
+```{r}
+res$yaml
+res$yaml_range
+res$yaml_list
+```
+
+```{r}
+res_yaml <- res$yaml
+res_yaml
+```
+
+```{r}
+grep("online:", res_yaml)
+grep("online:", res_yaml, value = TRUE)
+```
+

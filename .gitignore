@@ -3,3 +3,5 @@
 .RData
 .Ruserdata
 man/
+
+inst/notebooks/test-delete-insert-lines.nb.html
