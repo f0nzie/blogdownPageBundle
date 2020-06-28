@@ -1,5 +1,8 @@
 
 
+
+
+
 rmd_pattern = '[.][Rr](md|markdown)$'
 md_pattern  = '[.][Rr]?(md|markdown)$'
 
@@ -41,7 +44,11 @@ collect_yaml = function(
 
 
 
-
+#' Count the number of YAML field occurrences
+#'
+#' One of various functions to deal with YAML
+#'
+#' @param fields A character vector of YAML field names.
 #' @param sort_by_count Whether to sort the frequency tables by counts.
 #' @export
 #' @rdname find_yaml
