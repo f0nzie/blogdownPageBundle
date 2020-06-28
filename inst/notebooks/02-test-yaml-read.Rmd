@@ -1,0 +1,153 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+blog_dir = '/media/msfz751/2560x/repos/blogdown-sites/fonzie-oilgains'
+file <- file.path(blog_dir, "content/blog", "2018-11-18-otc-2016-second-day.md")
+file
+```
+
+
+```{r}
+link_text <- "
+links:
+- icon: linkedin
+  icon_pack: fas
+  name: LinkedIn
+  url: 
+"
+link_text
+```
+
+```{r}
+# read markdown file
+x <- xfun::read_utf8(file)
+res <- blogdown:::split_yaml_body(x)   # split in two
+```
+
+```{r}
+names(res)
+```
+
+```{r}
+res$yaml
+res$yaml_range
+res$yaml_list
+```
+
+```{r}
+res_yaml <- res$yaml
+class(res_yaml)
+res_yaml
+```
+
+
+```{r}
+# writing to a file connection
+library(yaml)
+con <- file("data.yml", "w")
+write_yaml(data.frame(a=1:10, b=letters[1:10], c=11:20), con)
+```
+
+
+
+```{r}
+read_yaml("data.yml")
+```
+
+```{r}
+data_li <- read_yaml("data.yml")
+data_li
+```
+
+```{r}
+# modify field "a"
+data_li$a <- seq(21,30)
+data_li
+```
+
+```{r}
+cat(as.yaml(data.frame(a=21:30, b=letters[1:10], c=11:20)))
+```
+
+```{r}
+# writing modified list
+# write_yaml(data_li, con)
+write_yaml(data.frame(a=21:30, b=letters[1:10], c=11:20), con)
+# 
+```
+
+```{r}
+read_yaml("data.yml")
+```
+
+
+
+```{r}
+  yaml.load("- hey\n- hi\n- hello")
+  yaml.load("foo: 123\nbar: 456")
+  yaml.load("- foo\n- bar\n- 3.14")
+  yaml.load("foo: bar\n123: 456", as.named.list = FALSE)
+```
+
+```{r}
+  # reading from a file (uses readLines internally)
+  filename <- tempfile()
+  cat("foo: 123", file=filename, sep="\n")
+  yaml.load_file(filename)
+```
+
+```{r}
+# handling custom types
+yaml.load("!sqrt 555", handlers=list(sqrt=function(x) { sqrt(as.integer(x)) }))
+
+```
+
+```{r}
+yaml.load("!bar\none: 1\ntwo: 2", handlers=list(foo=function(x) { x$one <- "one"; x }))
+```
+
+
+
+```{r}
+yaml.load("!foo\n- 1\n- 2", handlers=list(foo=function(x) { as.integer(x) + 1 }))
+```
+
+
+
+
+
+
+
+
+```{r}
+# read from a character vector
+library(yaml)
+res_li <- read_yaml(text = res_yaml)
+res_li
+```
+
+```{r}
+library(yaml)
+con <- file("data-res.yml", "w")
+write_yaml(res_yaml, con)
+```
+
+```{r}
+class(res_li)
+print(res_li$image)
+```
+
+```{r}
+# change a value in a YAML field
+res_li$image <- "featured.jpg"
+res_li
+```
+
+```{r}
+con <- file("data.yml", "w")
+write_yaml(res_li, con)
+```
+

@@ -1,0 +1,175 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# Use package `yaml` to modify a YAML field in a post
+
+```{r}
+blog_dir = '/media/msfz751/2560x/repos/blogdown-sites/fonzie-oilgains'
+file <- file.path(blog_dir, "content/blog", "2018-11-18-otc-2016-second-day.md")
+file
+```
+
+```{r}
+# read markdown file
+x <- xfun::read_utf8(file)
+res <- blogdown:::split_yaml_body(x)   # split in two
+res_yaml <- res$yaml    # character vector
+res_yaml
+```
+
+```{r}
+# read from a character vector and convert to R objects
+library(yaml)
+res_li <- read_yaml(text = res_yaml)   # read and convert to a list
+res_li
+```
+
+```{r}
+# change a value in a YAML field
+res_li$image <- "featured.jpg"
+res_li
+```
+
+```{r}
+con <- file("data-res.yml", "w")
+write_yaml(res_li, con)
+```
+
+```{r}
+class(res_li)
+print(res_li$image)
+```
+
+```{r}
+yaml.load_file("data-res.yml")
+```
+
+# write special YAML
+
+```{r}
+link_text <- "
+links:
+- icon: linkedin
+  icon_pack: fas
+  name: LinkedIn
+  url: ''
+"
+link_text
+```
+
+
+```{r}
+library(yaml)
+yaml.load(link_text)
+```
+
+```{r}
+two_links_txt <- "links:\n - icon: flask\n  icon_pack: fas\n  name: demo slides\n url: ../../slides/rladies-demo-slides.html \n - icon: github\n  icon_pack: fab\n name: demo code\n  url: https://github.com/rbind/apreshill/blob/master/static/slides/rladies-demo-slides.Rmd" 
+
+links_yaml <- as.yaml(two_links_txt)
+links_yaml
+cat(as.yaml(two_links_txt))
+```
+
+```{r}
+two_links_txt <- "links:\nicon: flask\nicon_pack: fas\nname: demo slides"
+yaml.load(two_links_txt)
+```
+
+
+```{r}
+write_yaml(yaml.load(two_links_txt), file = "links.yaml")
+```
+
+
+```{r}
+links <- list()
+links <- link_one <- list(
+    links$icon <- "the icon",
+    links$icon_pack <- "fas",
+    links$name <- "demo slides"
+)
+```
+
+        - the icon
+        - fas
+        - demo slides
+
+```{r}
+links <- list(link_one, link_two = list(
+    icon = "the icon",
+    icon_pack = "fas",
+    name = "demo slides"
+))
+```
+
+    '':
+    - the icon
+    - fas
+    - demo slides
+    link_two:
+      icon: the icon
+      icon_pack: fas
+      name: demo slides
+
+
+```{r}
+write_yaml(links, file = "links.yaml")
+```
+
+
+```{r}
+yaml.load("foo: 123\nbar: 456")
+```
+
+```{r}
+links <- list(links = 
+    list(icon = "flask", name = "demo"),
+    list(icon = "git", name = "github")
+)
+```
+
+    links:
+      icon: flask
+      name: demo
+    '':
+      icon: git
+      name: github
+
+# Writing a nested list of links
+
+```{r}
+alist <- list(links = list(
+    list(icon = 'flask', icon_pack = 'fas', name = 'demo slides', url = ''), 
+    list(icon = 'github', icon_pack = 'fab', name = 'demo code', url = '')
+    ))
+alist
+```
+
+    links:
+    - icon: flask
+      icon_pack: fas
+      name: demo slides
+      url: ''
+    - icon: github
+      icon_pack: fab
+      name: demo code
+      url: ''
+
+
+```{r}
+write_yaml(alist, file = "links.yaml")
+```
+
+
+links:
+- icon: flask
+  icon_pack: fas
+  name: demo slides
+  url: ../../slides/rladies-demo-slides.html
+- icon: github
+  icon_pack: fab
+  name: demo code
+  url: https://github.com/rbind/apreshill/blob/master/static/slides/rladies-demo-slides.Rmd

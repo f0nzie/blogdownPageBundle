@@ -10,25 +10,22 @@ file
 ```
 
 ```{r}
+# before removing image line
 text_md <- readLines(file, warn = FALSE)
+text_md[1:15]
+```
+
+```{r}
 grep(pattern = "image:", text_md)
 ```
 
 ```{r}
+# remove one line
 new_text <- text_md[-c(10)]
 new_text[1:15]
 ```
 
-```{r}
-link_text <- "
-links:
-- icon: linkedin
-  icon_pack: fas
-  name: LinkedIn
-  url: 
-"
-link_text
-```
+
 
 ```{r}
 # read markdown file

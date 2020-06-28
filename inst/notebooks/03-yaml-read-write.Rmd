@@ -1,0 +1,81 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# Write to YAML using package `yaml`
+
+```{r}
+# writing to a file connection
+library(yaml)
+con <- file("data.yml", "w")
+write_yaml(data.frame(a=1:10, b=letters[1:10], c=11:20), con)
+```
+
+
+
+```{r}
+read_yaml("data.yml")
+```
+
+```{r}
+data_li <- read_yaml("data.yml")
+data_li
+```
+
+```{r}
+# modify field "a"
+data_li$a <- seq(21,30)
+data_li
+```
+
+```{r}
+cat(as.yaml(data.frame(a=21:30, b=letters[1:10], c=11:20)))
+```
+
+```{r}
+# writing modified list
+# write_yaml(data_li, con)
+write_yaml(data.frame(a=21:30, b=letters[1:10], c=11:20), con)
+# 
+```
+
+```{r}
+yaml.load_file("data.yml", error.label = "duplicate labels")
+```
+
+
+
+```{r}
+  yaml.load("- hey\n- hi\n- hello")
+  yaml.load("foo: 123\nbar: 456")
+  yaml.load("- foo\n- bar\n- 3.14")
+  yaml.load("foo: bar\n123: 456", as.named.list = FALSE)
+```
+
+```{r}
+  # reading from a file (uses readLines internally)
+  filename <- tempfile()
+  cat("foo: 123", file=filename, sep="\n")
+  yaml.load_file(filename)
+```
+
+```{r}
+# handling custom types
+yaml.load("!sqrt 555", handlers=list(sqrt=function(x) { sqrt(as.integer(x)) }))
+
+```
+
+```{r}
+yaml.load("!bar\none: 1\ntwo: 2", handlers=list(foo=function(x) { x$one <- "one"; x }))
+```
+
+
+
+```{r}
+yaml.load("!foo\n- 1\n- 2", handlers=list(foo=function(x) { as.integer(x) + 1 }))
+```
+
+
+
+

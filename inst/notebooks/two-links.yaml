@@ -1,0 +1,22 @@
+aliases: r-ladies-slides
+title: R-Ladies Presentation Ninja
+authors: alison
+summary: A guide to using the R-Ladies xaringan slide theme
+date: '2017-12-18'
+categories:
+- rladies
+- xaringan
+tags: xaringan
+image:
+  caption: '[Photo by Sharon McCutcheon on Unsplash](https://unsplash.com/photos/H_FbsufW7yw)'
+  focal_point: ''
+projects: rladies-xaringan
+links:
+- icon: flask
+  icon_pack: fas
+  name: demo slides
+  url: ../../slides/rladies-demo-slides.html
+- icon: github
+  icon_pack: fab
+  name: demo code
+  url: https://github.com/rbind/apreshill/blob/master/static/slides/rladies-demo-slides.Rmd
