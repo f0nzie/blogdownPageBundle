@@ -1,0 +1,48 @@
+
+
+
+blogdownPageBundle_skeleton = function(path, ...) {
+    opts = options(blogdownPageBundle.open_sample = FALSE); on.exit(options(opts), add = TRUE)
+    new_site(dir = path, ..., serve = FALSE)
+}
+
+
+
+"[![](/img/volve_resmodel_01.png)](/img/volve_resmodel_01.png)"
+"[![](/img/2-6-tb_report-cover.png)](/files/RXT10010NS_Statoil_Volve_Seismic_QC_Report_v03.pdf)"
+"[![](/img/1-2-tb_report-cover.png)](/files/ST0202 Volve 4C FFOR.pdf)"
+"[![](/img/paolo_dellaversana_ml_lithofacies.jpg)](/img/paolo_dellaversana_ml_lithofacies.jpg)"
+"[![](/img/marco_rizk_multiple_regression.jpg)](/img/marco_rizk_multiple_regression.jpg)"
+"[![](/img/jesse_pisel-cross_section.png)](/img/jesse_pisel-cross_section.png)"
+"[![](/img/matteo_nicoli-economic_risk.jpg)](/img/matteo_nicoli-economic_risk.jpg)"
+"[![](/img/without_having_to_learn_python_or_r.png)](/img/without_having_to_learn_python_or_r.png)"
+"[![](/img/matteo_nicoli_seismic.png)](/img/matteo_nicoli_seismic.png)"
+"[![](/img/well_failure_analysis.png)](/img/well_failure_analysis.png)"
+"[![](/img/post_asic.png)](https://www.linkedin.com/posts/andrewlongoz_machinelearning-deeplearning-neuralnetworks-activity-6593100611263303680-UMIL)"
+"[![](/img/seismic_image_li.png)]()"
+
+
+get_feature_images <- function(root_dir, post_dir) {
+    # n_images_md: markdown images
+    # n_images_src: HTML images
+    dated_files <- get_dated_files(root_dir, post_dir)
+    static_dir <- file.path(root_dir, "static")
+
+    for (file in dated_files) {
+
+        text_md <- readLines(file, warn = FALSE) # https://stackoverflow.com/a/47359712/5270873
+        images_md_hhtp  <- grep("!\\[.*\\]\\((?!http).*", text_md, value = TRUE, perl = TRUE)
+        images_md <- grep("!\\[.*\\]\\(/img.*\\)", images_md_hhtp, value = TRUE, perl = TRUE)
+        images_src <- grep("<img src.*\\/>", text_md, value = TRUE)
+        # image files of the form "/img/image_name.ext"
+        matches <- regmatches(images_md_hhtp, regexpr("(?<=]\\().+.(?=\\)[\\]\\(])", images_md_hhtp, perl = TRUE))
+        n_images_md_hhtp  <- length(images_md_hhtp)
+        n_images_md  <- length(images_md)
+        n_images_src <- length(images_src)
+        # cat(basename(file), n_images_md_hhtp, n_images_md, n_images_src, "\n")
+        if (length(matches) > 0) {
+            cat(basename(file), "\n")
+            print(matches)
+        }
+    }
+}
